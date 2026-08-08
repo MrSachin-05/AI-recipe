@@ -32,7 +32,7 @@ function ImageUploader({ onImageSelect, loading }) {
       "image/*": [".jpeg", ".jpg", ".png", ".webp"],
     },
     maxFiles: 1,
-    maxSize: 10485760,
+    maxSize: 10485760, // 10MB
     noClick: true,
     noKeyboard: true,
   });
