@@ -1,4 +1,6 @@
-import { clerkMiddleware } from '@clerk/nextjs/server';
+import { clerkMiddleware, createRouteMatcher } from "@clerk/nextjs/server";
+import { NextResponse } from "next/server";
+import { aj } from "./lib/arcjet";
 
 const isProtectedRoute = createRouteMatcher([
   "/recipe(.*)",
@@ -10,7 +12,7 @@ const isProtectedRoute = createRouteMatcher([
 export default clerkMiddleware(async (auth, req) => {
   const decision = await aj.protect(req);
 
-  if (decision.isDenied()) {
+  if (decision.isDenied()) { 
     return NextResponse.json({ error: "Forbidden" }, { status: 403 });
   }
 
@@ -23,14 +25,11 @@ export default clerkMiddleware(async (auth, req) => {
   return NextResponse.next();
 });
 
-
 export const config = {
   matcher: [
     // Skip Next.js internals and all static files, unless found in search params
-    '/((?!_next|[^?]*\\.(?:html?|css|js(?!on)|jpe?g|webp|png|gif|svg|ttf|woff2?|ico|csv|docx?|xlsx?|zip|webmanifest)).*)',
-    // Always run for Clerk's auto-proxy path
-    '/__clerk/:path*',
+    "/((?!_next|[^?]*\\.(?:html?|css|js(?!on)|jpe?g|webp|png|gif|svg|ttf|woff2?|ico|csv|docx?|xlsx?|zip|webmanifest)).*)",
     // Always run for API routes
-    '/(api|trpc)(.*)',
+    "/(api|trpc)(.*)",
   ],
 };
