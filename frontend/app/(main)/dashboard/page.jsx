@@ -30,7 +30,7 @@ const DashboardPage = async () => {
       <div className="max-w-6xl mx-auto">
         <div className="mb-5">
           <h1 className="text-5xl md:text-7xl font-bold text-stone-900 mb-4 tracking-tight leading-tight">
-            Fresh Recipes, Servd Daily 🔥
+            Fresh Recipes, Served Daily♨️✨
           </h1>
           <p className="text-xl text-stone-600 font-light max-w-2xl">
             Discover thousands of recipes from around the world. Cook, create,
