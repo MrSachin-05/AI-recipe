@@ -20,6 +20,11 @@ const DashboardPage = async () => {
   const categories = categoriesData?.categories || [];
   const areas = areasData?.areas || [];
 
+  // Remove duplicate areas
+  const uniqueAreas = Array.from(
+    new Map(areas.map((area) => [area.strArea, area])).values()
+  );
+
   return (
     <div className="min-h-screen bg-stone-50 py-16 px-4">
       <div className="max-w-6xl mx-auto">
@@ -129,7 +134,7 @@ const DashboardPage = async () => {
           </div>
 
           <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
-            {areas.map((area) => (
+            {uniqueAreas.map((area) => (
               <Link
                 key={area.strArea}
                 href={`/recipes/cuisine/${area.strArea

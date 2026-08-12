@@ -102,7 +102,7 @@ export const checkUser = async () => {
       password: `clerk_managed_${user.id}_${Date.now()}`,
       confirmed: true,
       blocked: false,
-      role: authenticatedRole.id,
+      role: authenticatedRole?.id || authenticatedRole,
       clerkid: user.id,
       firstName: user.firstName || "",
       lastName: user.lastName || "",
@@ -116,7 +116,7 @@ export const checkUser = async () => {
         "Content-Type": "application/json",
         Authorization: `Bearer ${STRAPI_API_TOKEN}`,
       },
-      body: JSON.stringify({ data: userData }),
+      body: JSON.stringify({ ...userData }),
     });
 
     if (!newUserResponse.ok) {

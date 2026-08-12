@@ -14,6 +14,7 @@ function Dialog({
 }
 
 function DialogTrigger({
+  asChild,
   ...props
 }) {
   return <DialogPrimitive.Trigger data-slot="dialog-trigger" {...props} />;
@@ -26,6 +27,7 @@ function DialogPortal({
 }
 
 function DialogClose({
+  asChild,
   ...props
 }) {
   return <DialogPrimitive.Close data-slot="dialog-close" {...props} />;

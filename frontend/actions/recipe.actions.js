@@ -327,7 +327,7 @@ export async function getRecipesByPantryIngredients() {
     }
 
     const model = genAI.getGenerativeModel({
-      model: "gemini-2.5-flash",
+      model: "gemini-2.0-flash",
     });
 
     const prompt = `
@@ -610,7 +610,7 @@ export async function getOrGenerateRecipe(formData) {
     }
 
     const model = genAI.getGenerativeModel({
-      model: "gemini-2.5-flash",
+      model: "gemini-2.0-flash",
     });
 
     const prompt = `
