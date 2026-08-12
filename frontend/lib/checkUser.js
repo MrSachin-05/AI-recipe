@@ -21,9 +21,17 @@ export const checkUser = async () => {
   const subscriptionTier = has({ plan: "pro" }) ? "pro" : "free";
 
   try {
-    // check if user exists in strapi
+    const normalizeEntity = (entity) => {
+      if (!entity) return null;
+      if (entity.attributes) {
+        return { id: entity.id, ...entity.attributes };
+      }
+      return entity;
+    };
+
+    // check if user exists in Strapi
     const existingUserResponse = await fetch(
-      `${STRAPI_URL}/api/users?filters[clerkId][$eq]=${user.id}`,
+      `${STRAPI_URL}/api/users?filters[clerkid][$eq]=${user.id}`,
       {
         headers: {
           Authorization: `Bearer ${STRAPI_API_TOKEN}`,
@@ -39,10 +47,11 @@ export const checkUser = async () => {
     }
 
     const existingUserData = await existingUserResponse.json();
+    const existingUserEntity =
+      existingUserData?.data?.[0] ?? existingUserData?.[0] ?? null;
+    const existingUser = normalizeEntity(existingUserEntity);
 
-    if (existingUserData.length > 0) {
-      const existingUser = existingUserData[0];
-
+    if (existingUser) {
       if (existingUser.subscriptionTier !== subscriptionTier) {
         await fetch(`${STRAPI_URL}/api/users/${existingUser.id}`, {
           method: "PUT",
@@ -50,14 +59,13 @@ export const checkUser = async () => {
             "Content-Type": "application/json",
             Authorization: `Bearer ${STRAPI_API_TOKEN}`,
           },
-          body: JSON.stringify({ subscriptionTier }),
+          body: JSON.stringify({ data: { subscriptionTier } }),
         });
       }
       return { ...existingUser, subscriptionTier };
     }
 
-    // Create new user in strapi
-    // Get authenticated role
+    // Create new user in Strapi
     const rolesResponse = await fetch(
       `${STRAPI_URL}/api/users-permissions/roles`,
       {
@@ -67,9 +75,19 @@ export const checkUser = async () => {
       },
     );
 
+    if (!rolesResponse.ok) {
+      const errorText = await rolesResponse.text();
+      console.error("Strapi roles error response:", errorText);
+      return null;
+    }
+
     const rolesData = await rolesResponse.json();
-    const authenticatedRole = rolesData.roles.find(
-      (role) => role.type === "authenticated",
+    const roles = rolesData?.data ?? rolesData?.roles ?? [];
+    const normalizedRoles = Array.isArray(roles)
+      ? roles.map(normalizeEntity)
+      : [];
+    const authenticatedRole = normalizedRoles.find(
+      (role) => role?.type === "authenticated",
     );
 
     if (!authenticatedRole) {
@@ -77,7 +95,6 @@ export const checkUser = async () => {
       return null;
     }
 
-    // Create new user
     const userData = {
       username:
         user.username || user.emailAddresses[0].emailAddress.split("@")[0],
@@ -86,7 +103,7 @@ export const checkUser = async () => {
       confirmed: true,
       blocked: false,
       role: authenticatedRole.id,
-      clerkId: user.id,
+      clerkid: user.id,
       firstName: user.firstName || "",
       lastName: user.lastName || "",
       imageUrl: user.imageUrl || "",
@@ -99,7 +116,7 @@ export const checkUser = async () => {
         "Content-Type": "application/json",
         Authorization: `Bearer ${STRAPI_API_TOKEN}`,
       },
-      body: JSON.stringify(userData),
+      body: JSON.stringify({ data: userData }),
     });
 
     if (!newUserResponse.ok) {
@@ -108,8 +125,9 @@ export const checkUser = async () => {
       return null;
     }
 
-    const newUser = await newUserResponse.json();
-    return newUser;
+    const newUserResponseData = await newUserResponse.json();
+    const newUserEntity = newUserResponseData?.data ?? newUserResponseData;
+    return normalizeEntity(newUserEntity);
   } catch (error) {
     console.error("Error in checkUser:", error.message);
     return null;
