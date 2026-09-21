@@ -1,4 +1,4 @@
-import { SignedIn, SignedOut, SignInButton, SignUpButton } from "@clerk/nextjs";
+import { SignInButton, SignUpButton } from "@clerk/nextjs";
 import React from "react";
 import { Button } from "./ui/button";
 import Link from "next/link";
@@ -43,11 +43,11 @@ const Header = async () => {
           </Link>
         </div>
         <div className="flex items-center space-x-4">
-          <SignedIn>
-            {/* How to cook */}
-            <HowToCookModal />
+          {user ? (
+            <>
+              {/* How to cook */}
+              <HowToCookModal />
 
-            {user && (
               <PricingModal subscriptionTier={user.subscriptionTier}>
                 <Badge
                   variant="outline"
@@ -61,24 +61,25 @@ const Header = async () => {
                   </span>
                 </Badge>
               </PricingModal>
-            )}
-            <UserDropdown />
-          </SignedIn>
-          <SignedOut>
-            <SignInButton mode="modal">
-              <Button
-                variant="ghost"
-                className="text-stone-600 hover:text-orange-600 hover:bg-orange-50 font-medium"
-              >
-                Sign In
-              </Button>
-            </SignInButton>
-            <SignUpButton>
-              <Button variant="primary" className="rounded-full px-6">
-                Get Started
-              </Button>
-            </SignUpButton>
-          </SignedOut>
+              <UserDropdown />
+            </>
+          ) : (
+            <>
+              <SignInButton mode="modal">
+                <Button
+                  variant="ghost"
+                  className="text-stone-600 hover:text-orange-600 hover:bg-orange-50 font-medium"
+                >
+                  Sign In
+                </Button>
+              </SignInButton>
+              <SignUpButton>
+                <Button variant="primary" className="rounded-full px-6">
+                  Get Started
+                </Button>
+              </SignUpButton>
+            </>
+          )}
         </div>
       </nav>
     </header>
