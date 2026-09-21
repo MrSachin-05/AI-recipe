@@ -1,72 +1,115 @@
 const mongoose = require("mongoose");
 
-const recipeSchema = new mongoose.Schema({
+const recipeSchema = new mongoose.Schema(
+  {
     title: {
-        type: String,
-        required: true,
-        trim: true,
+      type: String,
+      required: true,
+      trim: true,
+      index: true,
     },
     description: {
-        type: String,
-        required: true,
-        trim: true,
+      type: mongoose.Schema.Types.Mixed,
+      default: "",
+    },
+    author: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      required: false,
+      index: true,
+    },
+    // Optional authorClerkId if created by Clerk user
+    authorClerkId: {
+      type: String,
+      index: true,
+      sparse: true,
     },
     cuisine: {
-        type: String,
-        required: true,
-        trim: true,
-        enum: ["Indian", "Italian", "Chinese", "Mexican", "Other"],
+      type: String,
+      default: "other",
+      trim: true,
+      lowercase: true,
+      index: true,
     },
     category: {
-        type: String,
-        required: true,
-        trim: true,
-        enum: ["Veg", "Non-Veg", "Vegan", "Dessert", "Snack"],
+      type: String,
+      default: "dinner",
+      trim: true,
+      lowercase: true,
+      index: true,
     },
     ingredients: {
-        type: [String],
-        required: true,
+      type: mongoose.Schema.Types.Mixed,
+      required: true,
+      default: () => [],
     },
     instructions: {
-        type: [String],
-        required: true,
+      type: mongoose.Schema.Types.Mixed,
+      required: true,
+      default: () => [],
     },
     imageUrl: {
-        type: String,
-        default: "",
+      type: String,
+      default: "",
     },
     isPublic: {
-        type: Boolean,
-        default: true,
+      type: Boolean,
+      default: true,
+      index: true,
     },
     prepTime: {
-        type: Number,
-        default: 0,
+      type: Number,
+      default: 0,
     },
     cookTime: {
-        type: Number,
-        default: 0,
+      type: Number,
+      default: 0,
     },
     servings: {
-        type: Number,
-        default: 1,
+      type: Number,
+      default: 1,
     },
     nutrition: {
-        calories: { type: Number, default: 0 },
-        protein: { type: Number, default: 0 },
-        carbs: { type: Number, default: 0 },
-        fat: { type: Number, default: 0 },
+      type: mongoose.Schema.Types.Mixed,
+      default: () => ({
+        calories: 0,
+        protein: 0,
+        carbs: 0,
+        fat: 0,
+      }),
     },
     tips: {
-        type: [String],
-        default: [],
+      type: mongoose.Schema.Types.Mixed,
+      default: () => [],
     },
     substitutions: {
-        type: [String],
-        default: [],
+      type: mongoose.Schema.Types.Mixed,
+      default: () => [],
     },
-}, { timestamps: true });
+  },
+  {
+    timestamps: true,
+    toJSON: {
+      virtuals: true,
+      transform: (doc, ret) => {
+        ret.id = ret._id.toString();
+        // Also provide documentId for Strapi v5 frontend compatibility
+        ret.documentId = ret._id.toString();
+        delete ret.__v;
+        return ret;
+      },
+    },
+  }
+);
 
-const Recipe = mongoose.model("Recipe", recipeSchema);
+// Virtual for saved recipes referencing this recipe
+recipeSchema.virtual("savedRecipes", {
+  ref: "SavedRecipe",
+  localField: "_id",
+  foreignField: "recipe",
+});
+
+const Recipe =
+  mongoose.models.Recipe || mongoose.model("Recipe", recipeSchema);
 
 module.exports = Recipe;

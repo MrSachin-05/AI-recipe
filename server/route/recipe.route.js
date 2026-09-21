@@ -16,6 +16,7 @@ router.post('/upload', upload.single('image'), uploadRecipeImage);
 router.post('/', createRecipe);
 router.get('/', getAllRecipes);
 router.get('/:id', getRecipeById);
+router.put('/:id', updateRecipe);
 router.patch('/:id', updateRecipe);
 router.delete('/:id', deleteRecipe);
 

@@ -6,9 +6,10 @@ import { request } from "@arcjet/next";
 import { GoogleGenerativeAI } from "@google/generative-ai";
 
 const STRAPI_URL =
-  process.env.NEXT_PUBLIC_STRAPI_URL || "http://localhost:1337";
+  process.env.NEXT_PUBLIC_STRAPI_URL || "http://localhost:5000";
 const STRAPI_API_TOKEN = process.env.STRAPI_API_TOKEN;
 const GEMINI_API_KEY = process.env.GEMINI_API_KEY;
+const GEMINI_MODEL = process.env.GEMINI_MODEL || "gemini-3.6-flash";
 
 const genAI = new GoogleGenerativeAI(GEMINI_API_KEY);
 
@@ -52,7 +53,7 @@ export async function scanPantryImage(formData) {
     const base64Image = buffer.toString("base64");
 
     const model = genAI.getGenerativeModel({
-      model: "gemini-2.0-flash",
+      model: GEMINI_MODEL,
     });
 
     const prompt = `You are a professional chef and ingredient recognition expert. Analyze this image of a pantry/fridge and identify all visible food ingredients.

@@ -1,16 +1,18 @@
-const express = require('express');
+const express = require("express");
 const {
   saveRecipe,
   getSavedRecipes,
   getSavedRecipeById,
   deleteSavedRecipe,
-} = require('../controller/savedRecipe.controller');
+  unsaveRecipe,
+} = require("../controller/savedRecipe.controller");
 
 const router = express.Router();
 
-router.post('/', saveRecipe);
-router.get('/', getSavedRecipes);
-router.get('/:id', getSavedRecipeById);
-router.delete('/:id', deleteSavedRecipe);
+router.post("/unsave", unsaveRecipe);
+router.post("/", saveRecipe);
+router.get("/", getSavedRecipes);
+router.get("/:id", getSavedRecipeById);
+router.delete("/:id", deleteSavedRecipe);
 
 module.exports = router;

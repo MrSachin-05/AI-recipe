@@ -6,9 +6,10 @@ import { request } from "@arcjet/next";
 import { GoogleGenerativeAI } from "@google/generative-ai";
 
 const STRAPI_URL =
-  process.env.NEXT_PUBLIC_STRAPI_URL || "http://127.0.0.1:1337";
+  process.env.NEXT_PUBLIC_STRAPI_URL || "http://localhost:5000";
 const STRAPI_API_TOKEN = process.env.STRAPI_API_TOKEN;
 const GEMINI_API_KEY = process.env.GEMINI_API_KEY;
+const GEMINI_MODEL = process.env.GEMINI_MODEL || "gemini-3.6-flash";
 const UNSPLASH_ACCESS_KEY = process.env.UNSPLASH_ACCESS_KEY;
 console.log(GEMINI_API_KEY, +"<<< GEMINI_API_KEY loaded");
 
@@ -34,7 +35,13 @@ function classifyGeminiError(error) {
     message.includes("unauthorized") ||
     message.includes("forbidden");
 
-  return { isQuota, isAuth, status, message };
+  const isDeprecated =
+    status === 404 ||
+    message.includes("not found") ||
+    message.includes("no longer available") ||
+    message.includes("deprecated");
+
+  return { isQuota, isAuth, isDeprecated, status, message };
 }
 
 async function fetchRecentPublicRecipesFallback({ limit = 5 } = {}) {
@@ -327,7 +334,7 @@ export async function getRecipesByPantryIngredients() {
     }
 
     const model = genAI.getGenerativeModel({
-      model: "gemini-2.0-flash",
+      model: GEMINI_MODEL,
     });
 
     const prompt = `
@@ -363,8 +370,8 @@ export async function getRecipesByPantryIngredients() {
       const response = await result.response;
       text = response.text();
     } catch (error) {
-      const { isQuota, isAuth } = classifyGeminiError(error);
-      if (isQuota || isAuth) {
+      const { isQuota, isAuth, isDeprecated } = classifyGeminiError(error);
+      if (isQuota || isAuth || isDeprecated) {
         const fallbackRecipes = await fetchRecentPublicRecipesFallback({
           limit: 5,
         });
@@ -610,7 +617,7 @@ export async function getOrGenerateRecipe(formData) {
     }
 
     const model = genAI.getGenerativeModel({
-      model: "gemini-2.0-flash",
+      model: GEMINI_MODEL,
     });
 
     const prompt = `
@@ -688,8 +695,8 @@ export async function getOrGenerateRecipe(formData) {
       const response = await result.response;
       text = response.text();
     } catch (error) {
-      const { isQuota, isAuth } = classifyGeminiError(error);
-      if (isQuota || isAuth) {
+      const { isQuota, isAuth, isDeprecated } = classifyGeminiError(error);
+      if (isQuota || isAuth || isDeprecated) {
         const similar = await fetchSimilarRecipesFallback(normalizedTitle, {
           limit: 1,
         });
