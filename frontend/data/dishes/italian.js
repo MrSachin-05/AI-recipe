@@ -1,0 +1,232 @@
+// frontend/data/dishes/italian.js
+export const ITALIAN_DISHES = [
+  {
+    id: "ita_1",
+    documentId: "ita_1",
+    title: "Authentic Spaghetti Carbonara",
+    description:
+      "The Roman classic prepared purely with crispy guanciale, fresh egg yolks, sharp Pecorino Romano cheese, and freshly ground black pepper.",
+    cuisine: "italian",
+    country: "Italian",
+    category: "dinner",
+    foodType: "pasta",
+    prepTime: 10,
+    cookTime: 15,
+    servings: 2,
+    imageUrl:
+      "https://images.unsplash.com/photo-1612874742237-6526221588e3?w=800",
+    ingredients: [
+      { item: "Spaghetti pasta", amount: "250g", category: "Grain" },
+      { item: "Guanciale (or pancetta)", amount: "120g", category: "Protein" },
+      { item: "Egg yolks", amount: "3 large", category: "Dairy" },
+      { item: "Pecorino Romano", amount: "50g finely grated", category: "Dairy" },
+      { item: "Black pepper", amount: "1 tbsp freshly cracked", category: "Spice" },
+    ],
+    instructions: [
+      {
+        step: 1,
+        title: "Crisp the Meat",
+        instruction: "Fry diced guanciale over medium heat until golden and crispy. Remove from heat.",
+      },
+      {
+        step: 2,
+        title: "Whisk Egg Mixture",
+        instruction: "In a bowl, whisk egg yolks, grated Pecorino, and black pepper into a thick paste.",
+      },
+      {
+        step: 3,
+        title: "Boil Pasta",
+        instruction: "Cook spaghetti in salted boiling water until al dente. Reserve 1/2 cup pasta water.",
+      },
+      {
+        step: 4,
+        title: "Emulsify",
+        instruction: "Toss hot pasta with guanciale and fat. Off the heat, pour egg mixture and toss vigorously with a splash of pasta water until creamy.",
+        tip: "Never add egg mixture while the pan is over active heat, or the eggs will scramble.",
+      },
+    ],
+    nutrition: { calories: 590, protein: 28, carbs: 62, fat: 26 },
+    tips: ["Do not use heavy cream; the authentic creaminess comes solely from emulsified starch water and egg yolk."],
+    substitutions: [
+      { original: "Guanciale", alternatives: ["Pancetta", "Thick-cut smoked bacon"] },
+      { original: "Pecorino Romano", alternatives: ["Parmigiano Reggiano"] },
+    ],
+    isPublic: true,
+  },
+  {
+    id: "ita_2",
+    documentId: "ita_2",
+    title: "Pizza Margherita Napoletana",
+    description:
+      "Neapolitan masterpiece featuring a blistered sourdough crust, San Marzano tomato sauce, fresh buffalo mozzarella, and sweet basil leaves.",
+    cuisine: "italian",
+    country: "Italian",
+    category: "dinner",
+    foodType: "vegetarian",
+    prepTime: 25,
+    cookTime: 10,
+    servings: 2,
+    imageUrl:
+      "https://images.unsplash.com/photo-1574071318508-1cdbab80d002?w=800",
+    ingredients: [
+      { item: "Pizza dough ball", amount: "1 (250g)", category: "Grain" },
+      { item: "San Marzano tomatoes", amount: "1/2 cup crushed", category: "Vegetable" },
+      { item: "Fresh Mozzarella", amount: "120g torn", category: "Dairy" },
+      { item: "Fresh Basil", amount: "6-8 leaves", category: "Vegetable" },
+      { item: "Extra virgin olive oil", amount: "1 tbsp", category: "Other" },
+    ],
+    instructions: [
+      {
+        step: 1,
+        title: "Stretch Dough",
+        instruction: "Stretch dough by hand on a floured surface, pushing air to the crust edges.",
+      },
+      {
+        step: 2,
+        title: "Add Toppings",
+        instruction: "Spoon crushed tomatoes evenly, scatter torn mozzarella, and drizzle olive oil.",
+      },
+      {
+        step: 3,
+        title: "Bake at Max Temp",
+        instruction: "Bake on a preheated pizza stone at 500°F (260°C) for 7-9 minutes until crust blisters. Top with fresh basil.",
+      },
+    ],
+    nutrition: { calories: 540, protein: 24, carbs: 68, fat: 20 },
+    tips: ["Bake on the highest possible oven rack using a pizza stone or steel."],
+    substitutions: [],
+    isPublic: true,
+  },
+  {
+    id: "ita_3",
+    documentId: "ita_3",
+    title: "Creamy Tomato Basil Bruschetta",
+    description:
+      "Toasted rustic artisanal sourdough rubbed with raw garlic, heaped with vine-ripened tomatoes, sweet basil, aged balsamic glaze, and extra virgin olive oil.",
+    cuisine: "italian",
+    country: "Italian",
+    category: "snack",
+    foodType: "vegan",
+    prepTime: 12,
+    cookTime: 5,
+    servings: 4,
+    imageUrl:
+      "https://images.unsplash.com/photo-1572695157366-5e585ab2b69f?w=800",
+    ingredients: [
+      { item: "Ciabatta or rustic baguette", amount: "8 thick slices", category: "Grain" },
+      { item: "Ripe Roma tomatoes", amount: "4 diced", category: "Vegetable" },
+      { item: "Fresh garlic cloves", amount: "2 peeled", category: "Vegetable" },
+      { item: "Fresh basil leaves", amount: "1/4 cup chopped", category: "Vegetable" },
+      { item: "Balsamic glaze", amount: "1 tbsp", category: "Other" },
+    ],
+    instructions: [
+      {
+        step: 1,
+        title: "Toast Bread",
+        instruction: "Grill bread slices until golden brown. Immediately rub the surface with a halved garlic clove.",
+      },
+      {
+        step: 2,
+        title: "Toss Topping",
+        instruction: "Combine diced tomatoes, chopped basil, olive oil, sea salt, and black pepper.",
+      },
+      {
+        step: 3,
+        title: "Assemble",
+        instruction: "Spoon tomato mixture generously onto toasts and drizzle with balsamic glaze.",
+      },
+    ],
+    nutrition: { calories: 180, protein: 5, carbs: 26, fat: 6 },
+    tips: ["Seed tomatoes before dicing so the bread does not get soggy."],
+    substitutions: [],
+    isPublic: true,
+  },
+  {
+    id: "ita_4",
+    documentId: "ita_4",
+    title: "Traditional Italian Tiramisu",
+    description:
+      "Decadent layered dessert of espresso-dipped Savoiardi ladyfingers, pillowy mascarpone cream, and Dutch processed cocoa powder.",
+    cuisine: "italian",
+    country: "Italian",
+    category: "dessert",
+    foodType: "vegetarian",
+    prepTime: 25,
+    cookTime: 0,
+    servings: 8,
+    imageUrl:
+      "https://images.unsplash.com/photo-1571877227200-a0d98ea607e9?w=800",
+    ingredients: [
+      { item: "Ladyfinger biscuits (Savoiardi)", amount: "24", category: "Grain" },
+      { item: "Mascarpone cheese", amount: "450g", category: "Dairy" },
+      { item: "Egg yolks & sugar", amount: "4 yolks + 1/2 cup sugar", category: "Dairy" },
+      { item: "Strong brewed espresso", amount: "1.5 cups cooled", category: "Other" },
+      { item: "Unsweetened cocoa powder", amount: "2 tbsp", category: "Other" },
+    ],
+    instructions: [
+      {
+        step: 1,
+        title: "Make Cream",
+        instruction: "Whisk egg yolks and sugar until pale; gently fold in creamy mascarpone until velvety.",
+      },
+      {
+        step: 2,
+        title: "Dip Ladyfingers",
+        instruction: "Quickly dip ladyfingers into cooled espresso (1 second each side) and arrange in a dish.",
+      },
+      {
+        step: 3,
+        title: "Layer & Chill",
+        instruction: "Spread half mascarpone cream, repeat with another layer of ladyfingers, top with cream, dust with cocoa, and refrigerate 6 hours.",
+      },
+    ],
+    nutrition: { calories: 360, protein: 7, carbs: 38, fat: 21 },
+    tips: ["A quick dunk prevents the ladyfingers from becoming mushy."],
+    substitutions: [],
+    isPublic: true,
+  },
+  {
+    id: "ita_5",
+    documentId: "ita_5",
+    title: "Classic Lasagna Bolognese",
+    description:
+      "Comforting layers of slow-simmered beef and pork ragu, silky silky bechamel sauce, fresh pasta sheets, and golden Parmigiano Reggiano crust.",
+    cuisine: "italian",
+    country: "Italian",
+    category: "lunch",
+    foodType: "pasta",
+    prepTime: 30,
+    cookTime: 50,
+    servings: 6,
+    imageUrl:
+      "https://images.unsplash.com/photo-1574894709920-11b28e7367e3?w=800",
+    ingredients: [
+      { item: "Lasagna noodles", amount: "12 sheets", category: "Grain" },
+      { item: "Ground beef & pork ragu", amount: "600g", category: "Protein" },
+      { item: "Bechamel sauce", amount: "3 cups", category: "Dairy" },
+      { item: "Parmigiano Reggiano", amount: "1 cup grated", category: "Dairy" },
+      { item: "Mozzarella shredded", amount: "1.5 cups", category: "Dairy" },
+    ],
+    instructions: [
+      {
+        step: 1,
+        title: "Prepare Sauces",
+        instruction: "Simmer rich Bolognese meat sauce and prepare a smooth velvety white bechamel sauce.",
+      },
+      {
+        step: 2,
+        title: "Layer Lasagna",
+        instruction: "Spread ragu in dish, layer noodles, ragu, bechamel, and cheeses. Repeat for 4 layers.",
+      },
+      {
+        step: 3,
+        title: "Bake Golden",
+        instruction: "Bake at 375°F (190°C) for 35 mins covered with foil, then 15 mins uncovered until bubbling and browned.",
+      },
+    ],
+    nutrition: { calories: 620, protein: 34, carbs: 48, fat: 32 },
+    tips: ["Rest lasagna 15 minutes after baking before slicing so clean square portions hold together."],
+    substitutions: [],
+    isPublic: true,
+  },
+];

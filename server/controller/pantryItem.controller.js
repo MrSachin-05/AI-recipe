@@ -2,6 +2,7 @@ const mongoose = require("mongoose");
 const PantryItem = require("../database/pantryItem.database");
 const User = require("../database/user.database");
 const { isDbConnected } = require("../config/db");
+const { getQueryVal } = require("../utils/query");
 
 const memoryPantry = new Map();
 
@@ -158,8 +159,8 @@ exports.batchCreatePantryItems = async (req, res) => {
 exports.getPantryItems = async (req, res) => {
   try {
     const ownerFilter =
-      req.query?.["filters[owner][id][$eq]"] ||
-      req.query?.["filters[owner][$eq]"] ||
+      getQueryVal(req.query, ["filters", "owner", "id", "$eq"]) ||
+      getQueryVal(req.query, ["filters", "owner", "$eq"]) ||
       req.query?.owner;
 
     if (!isDbConnected()) {

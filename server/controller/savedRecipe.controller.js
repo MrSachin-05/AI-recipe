@@ -3,6 +3,7 @@ const SavedRecipe = require("../database/savedRecipe.database");
 const User = require("../database/user.database");
 const Recipe = require("../database/recipe.database");
 const { isDbConnected } = require("../config/db");
+const { getQueryVal } = require("../utils/query");
 
 const memorySaved = new Map();
 
@@ -125,14 +126,14 @@ exports.saveRecipe = async (req, res) => {
 exports.getSavedRecipes = async (req, res) => {
   try {
     const userFilter =
-      req.query?.["filters[user][id][$eq]"] ||
-      req.query?.["filters[user][$eq]"] ||
+      getQueryVal(req.query, ["filters", "user", "id", "$eq"]) ||
+      getQueryVal(req.query, ["filters", "user", "$eq"]) ||
       req.query?.userId ||
       req.query?.user;
 
     const recipeFilter =
-      req.query?.["filters[recipe][id][$eq]"] ||
-      req.query?.["filters[recipe][$eq]"] ||
+      getQueryVal(req.query, ["filters", "recipe", "id", "$eq"]) ||
+      getQueryVal(req.query, ["filters", "recipe", "$eq"]) ||
       req.query?.recipeId ||
       req.query?.recipe;
 

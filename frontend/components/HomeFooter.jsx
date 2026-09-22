@@ -12,15 +12,15 @@ const HomeFooter = () => {
 
   return (
     <>
-      <footer className="bg-linear-to-br from-stone-100 to-orange-50 border-t border-stone-200 mt-16">
+      <footer className="bg-linear-to-b from-zinc-950 to-black border-t border-zinc-800/80 mt-16 text-zinc-400">
         <div className="max-w-7xl mx-auto px-6 py-16">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
             {/* Brand */}
             <div>
-              <h2 className="text-3xl font-extrabold bg-linear-to-r from-orange-600 to-amber-400 bg-clip-text text-transparent mb-4">
-                Servd
+              <h2 className="text-3xl font-extrabold bg-linear-to-r from-blue-400 via-purple-400 to-pink-400 bg-clip-text text-transparent mb-4">
+                Spicyfy
               </h2>
-              <p className="text-stone-600 text-sm leading-relaxed">
+              <p className="text-zinc-400 text-sm leading-relaxed">
                 Turn your leftovers into masterpieces with AI-powered cooking.
                 Reduce food waste and cook smarter every day.
               </p>
@@ -28,8 +28,8 @@ const HomeFooter = () => {
 
             {/* Product */}
             <div>
-              <h3 className="font-semibold text-stone-900 mb-4">Product</h3>
-              <ul className="space-y-2 text-sm text-stone-600">
+              <h3 className="font-semibold text-white mb-4">Product</h3>
+              <ul className="space-y-2 text-sm text-zinc-400">
                 {[
                   "Scan Pantry",
                   "AI Recipes",
@@ -38,7 +38,7 @@ const HomeFooter = () => {
                 ].map((item) => (
                   <li
                     key={item}
-                    className="hover:text-orange-600 hover:translate-x-1 transition-all cursor-pointer"
+                    className="hover:text-white hover:drop-shadow-[0_0_8px_rgba(168,85,247,0.6)] hover:translate-x-1.5 transition-all cursor-pointer"
                   >
                     {item}
                   </li>
@@ -48,13 +48,13 @@ const HomeFooter = () => {
 
             {/* Resources */}
             <div>
-              <h3 className="font-semibold text-stone-900 mb-4">Resources</h3>
-              <ul className="space-y-2 text-sm text-stone-600">
+              <h3 className="font-semibold text-white mb-4">Resources</h3>
+              <ul className="space-y-2 text-sm text-zinc-400">
                 {["How it Works", "Help Center", "Privacy Policy", "Terms"].map(
                   (item) => (
                     <li
                       key={item}
-                      className="hover:text-orange-600 hover:translate-x-1 transition-all cursor-pointer"
+                      className="hover:text-white hover:drop-shadow-[0_0_8px_rgba(168,85,247,0.6)] hover:translate-x-1.5 transition-all cursor-pointer"
                     >
                       {item}
                     </li>
@@ -65,31 +65,31 @@ const HomeFooter = () => {
 
             {/* Contact */}
             <div>
-              <h3 className="font-semibold text-stone-900 mb-4">Contact</h3>
+              <h3 className="font-semibold text-white mb-4">Contact</h3>
 
-              <div className="space-y-2 text-sm text-stone-600">
+              <div className="space-y-2 text-sm text-zinc-400">
                 <p>
-                  <span className="font-semibold text-stone-800">Name:</span>{" "}
-                  Bidyasagar Sahu
+                  <span className="font-semibold text-zinc-200">Name:</span>{" "}
+                  Sachidananda Panigrahi
                 </p>
 
                 <p>
-                  <span className="font-semibold text-stone-800">Phone:</span>
+                  <span className="font-semibold text-zinc-200">Phone:</span>
                   <a
-                    href="tel:9556482091"
-                    className="hover:text-orange-600 ml-1"
+                    href="tel:8260537905"
+                    className="hover:text-purple-400 hover:drop-shadow-[0_0_8px_rgba(168,85,247,0.6)] transition-all ml-1"
                   >
-                    +91 9556482091
+                    +91 8260537905
                   </a>
                 </p>
 
                 <p>
-                  <span className="font-semibold text-stone-800">Email:</span>
+                  <span className="font-semibold text-zinc-200">Email:</span>
                   <a
-                    href="mailto:bidyasagarsahu5@gmail.com"
-                    className="hover:text-orange-600 ml-1"
+                    href="mailto:sachidanandapanigrahi96@gmail.com"
+                    className="hover:text-purple-400 hover:drop-shadow-[0_0_8px_rgba(168,85,247,0.6)] transition-all ml-1"
                   >
-                    bidyasagarsahu5@gmail.com
+                    sachidanandapanigrahi96@gmail.com
                   </a>
                 </p>
               </div>
@@ -97,13 +97,13 @@ const HomeFooter = () => {
           </div>
 
           {/* Bottom */}
-          <div className="border-t border-stone-200 mt-12 pt-6 flex flex-col md:flex-row items-center justify-between text-sm text-stone-500">
-            <p>© {new Date().getFullYear()} Servd. All rights reserved.</p>
+          <div className="border-t border-zinc-800/80 mt-12 pt-6 flex flex-col md:flex-row items-center justify-between text-sm text-zinc-500">
+            <p>© {new Date().getFullYear()} Spicyfy. All rights reserved.</p>
 
             <p className="mt-2 md:mt-0">
               Made with ❤️ by{" "}
-              <span className="text-orange-600 font-semibold"> 
-                Bidyasagar Sahu
+              <span className="text-pink-500 font-semibold drop-shadow-[0_0_8px_rgba(236,72,153,0.4)]"> 
+                Mr. Sachin
               </span>
             </p>
           </div>

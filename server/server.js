@@ -17,7 +17,7 @@ const allowedOrigins = [
   process.env.CLIENT_URL,
   'http://localhost:3000',
   'http://127.0.0.1:3000',
-  'https://servd-recipes.vercel.app',
+  'https://spicyfy-recipes.vercel.app',
 ].filter(Boolean);
 
 app.use(

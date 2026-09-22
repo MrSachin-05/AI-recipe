@@ -48,7 +48,7 @@ function ImageUploader({ onImageSelect, loading }) {
   // Preview Mode
   if (preview) {
     return (
-      <div className="relative w-full aspect-video bg-stone-100 rounded-2xl overflow-hidden border-2 border-stone-200">
+      <div className="relative w-full aspect-video bg-zinc-900 rounded-2xl overflow-hidden border border-zinc-800 shadow-xl">
         <Image
           src={preview}
           alt="Pantry preview"
@@ -59,14 +59,14 @@ function ImageUploader({ onImageSelect, loading }) {
         {!loading && (
           <button
             onClick={clearImage}
-            className="absolute top-4 right-4 bg-white/90 hover:bg-white p-2 rounded-full shadow-lg transition-all"
+            className="absolute top-4 right-4 bg-zinc-950/80 hover:bg-zinc-900 p-2 rounded-full border border-zinc-700 shadow-lg text-white transition-all hover:scale-110"
           >
-            <X className="w-5 h-5 text-stone-700" />
+            <X className="w-5 h-5 text-white" />
           </button>
         )}
         {loading && (
-          <div className="absolute inset-0 bg-black/40 flex items-center justify-center">
-            <RingLoader color="white" />
+          <div className="absolute inset-0 bg-black/70 backdrop-blur-xs flex items-center justify-center">
+            <RingLoader color="#c084fc" />
           </div>
         )}
       </div>
@@ -80,33 +80,39 @@ function ImageUploader({ onImageSelect, loading }) {
     }
   };
 
-  
-
   return (
     <>
       <div
         {...getRootProps()}
-        className={`relative w-full aspect-square border-2 border-dashed rounded-2xl transition-all cursor-pointer ${isDragActive ? "border-orange-600 bg-orange-50 scale-[1.02]" : "border-stone-300 bg-stone-50 hover:border-orange-400 hover:bg-orange-50/50"}`}
+        className={`relative w-full aspect-square border-2 border-dashed rounded-2xl transition-all cursor-pointer ${
+          isDragActive
+            ? "border-purple-500 bg-purple-950/40 scale-[1.02] shadow-[0_0_25px_rgba(168,85,247,0.3)]"
+            : "border-zinc-800 bg-zinc-900/60 hover:border-purple-500/60 hover:bg-purple-950/20 hover:shadow-[0_0_20px_rgba(168,85,247,0.15)]"
+        }`}
       >
         <input {...getInputProps()} />
         <div className="absolute inset-0 flex flex-col items-center justify-center gap-4 p-8 text-center">
           {/* Icon */}
           <div
-            className={`p-4 rounded-full transition-all ${isDragActive ? "bg-orange-600 scale-110" : "bg-orange-100"}`}
+            className={`p-4 rounded-full transition-all ${
+              isDragActive
+                ? "bg-purple-600 scale-110 shadow-[0_0_20px_rgba(168,85,247,0.5)]"
+                : "bg-purple-950/60 border border-purple-800/50 shadow-[0_0_15px_rgba(168,85,247,0.2)]"
+            }`}
           >
             {isDragActive ? (
               <ImageIcon className="w-8 h-8 text-white" />
             ) : (
-              <Camera className="w-8 h-8 text-orange-600" />
+              <Camera className="w-8 h-8 text-purple-400" />
             )}
           </div>
 
           {/* Text */}
           <div>
-            <h3 className="text-xl font-bold text-stone-900 mb-2">
+            <h3 className="text-xl font-bold text-white mb-2">
               {isDragActive ? "Drop your image here" : "Scan Your Pantry"}
             </h3>
-            <p className="text-stone-600 text-sm max-w-sm">
+            <p className="text-zinc-400 text-sm max-w-sm">
               {isDragActive
                 ? "Release to upload"
                 : "Take a photo or drag & drop an image of your fridge/pantry"}
@@ -134,16 +140,16 @@ function ImageUploader({ onImageSelect, loading }) {
                   e.stopPropagation();
                   open();
                 }}
-                className="border-orange-200 text-orange-700 hover:bg-orange-50 gap-2"
+                className="border-zinc-700 text-zinc-300 hover:bg-zinc-800 hover:text-white gap-2"
               >
                 <Upload className="w-4 h-4" />
-                Brows Files
+                Browse Files
               </Button>
             </div>
           )}
 
-          {/* Heiper text */}
-          <p className="text-xs text-stone-400">
+          {/* Helper text */}
+          <p className="text-xs text-zinc-500">
             Supports JPG, PNG, WebP • Max 10MB
           </p>
         </div>

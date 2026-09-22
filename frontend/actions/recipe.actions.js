@@ -4,6 +4,7 @@ import { freeMealRecommendations, proTierLimit } from "@/lib/arcjet";
 import { checkUser } from "@/lib/checkUser";
 import { request } from "@arcjet/next";
 import { GoogleGenerativeAI } from "@google/generative-ai";
+import { searchDishes } from "@/lib/dishes";
 
 const STRAPI_URL =
   process.env.NEXT_PUBLIC_STRAPI_URL || "http://localhost:5000";
@@ -597,6 +598,54 @@ export async function getOrGenerateRecipe(formData) {
           message: "Recipe loaded from database",
         };
       }
+    }
+
+    // Step 1.5: Check pre-defined curated cuisine catalog to eliminate unnecessary AI load
+    const matchedDishes = searchDishes(normalizedTitle);
+    if (matchedDishes && matchedDishes.length > 0) {
+      const bestMatch = matchedDishes[0];
+      try {
+        const createRes = await fetch(`${STRAPI_URL}/api/recipes`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${STRAPI_API_TOKEN}`,
+          },
+          body: JSON.stringify({
+            data: {
+              ...bestMatch,
+              author: user.id,
+              authorClerkId: user.clerkId,
+              isPublic: true,
+            },
+          }),
+        });
+        if (createRes.ok) {
+          const createdData = await createRes.json();
+          const persisted = createdData?.data;
+          return {
+            success: true,
+            recipe: persisted || bestMatch,
+            recipeId: persisted?.id || bestMatch.id,
+            isSaved: false,
+            fromDatabase: true,
+            isPro,
+            message: "Recipe loaded from pre-defined cuisine database",
+          };
+        }
+      } catch {
+        // Fallback to memory/catalog
+      }
+
+      return {
+        success: true,
+        recipe: bestMatch,
+        recipeId: bestMatch.id,
+        isSaved: false,
+        fromDatabase: true,
+        isPro,
+        message: "Recipe loaded from pre-defined cuisine catalog",
+      };
     }
 
     // Step 2: Recipe doesn't exist, generate with Gemini

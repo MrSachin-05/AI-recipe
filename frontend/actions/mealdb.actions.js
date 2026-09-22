@@ -1,5 +1,7 @@
 "use server";
 
+import { getDishesByCategory, getDishesByCountry } from "@/lib/dishes";
+
 const MEALDB_BASE = "https://www.themealdb.com/api/json/v1/1";
 
 export async function getRecipeOfTheDay() {
@@ -69,49 +71,84 @@ export async function getAreas() {
 }
 
 export async function getMealsByCategory(category) {
+  const localDishes = getDishesByCategory(category).map((d) => ({
+    idMeal: d.id,
+    strMeal: d.title,
+    strMealThumb: d.imageUrl,
+  }));
+
   try {
     const response = await fetch(`${MEALDB_BASE}/filter.php?c=${category}`, {
       next: { revalidate: 86400 }, // Cache for 24 hours
     });
 
     if (!response.ok) {
-      throw new Error("Failed to fetch meals");
+      return { success: true, meals: localDishes, category };
     }
 
     const data = await response.json();
+    const remoteMeals = data.meals || [];
+
+    // Merge without duplicates
+    const titles = new Set(remoteMeals.map((m) => m.strMeal.toLowerCase()));
+    const merged = [
+      ...localDishes.filter((d) => !titles.has(d.strMeal.toLowerCase())),
+      ...remoteMeals,
+    ];
 
     return {
       success: true,
-      meals: data.meals || [],
+      meals: merged.length > 0 ? merged : localDishes,
       category,
     };
   } catch (error) {
-    console.error("Error fetching meals by category:", error);
-    throw new Error(error.message || "Failed to load meals");
+    console.error("Error fetching meals by category, using local dishes fallback:", error);
+    return {
+      success: true,
+      meals: localDishes,
+      category,
+    };
   }
-
-  
 }
 
 export async function getMealsByArea(area) {
+  const localDishes = getDishesByCountry(area).map((d) => ({
+    idMeal: d.id,
+    strMeal: d.title,
+    strMealThumb: d.imageUrl,
+  }));
+
   try {
     const response = await fetch(`${MEALDB_BASE}/filter.php?a=${area}`, {
       next: { revalidate: 86400 }, // Cache for 24 hours
     });
 
     if (!response.ok) {
-      throw new Error("Failed to fetch meals");
+      return { success: true, meals: localDishes, area };
     }
 
     const data = await response.json();
+    const remoteMeals = data.meals || [];
+
+    // Merge without duplicates
+    const titles = new Set(remoteMeals.map((m) => m.strMeal.toLowerCase()));
+    const merged = [
+      ...localDishes.filter((d) => !titles.has(d.strMeal.toLowerCase())),
+      ...remoteMeals,
+    ];
 
     return {
       success: true,
-      meals: data.meals || [],
+      meals: merged.length > 0 ? merged : localDishes,
       area,
     };
   } catch (error) {
-    console.error("Error fetching meals by area:", error);
-    throw new Error(error.message || "Failed to load meals");
+    console.error("Error fetching meals by area, using local dishes fallback:", error);
+    return {
+      success: true,
+      meals: localDishes,
+      area,
+    };
   }
 }
+

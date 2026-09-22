@@ -3,8 +3,19 @@ const cloudinary = require("../config/cloudinary");
 const Recipe = require("../database/recipe.database");
 const User = require("../database/user.database");
 const { isDbConnected } = require("../config/db");
+const { getQueryVal } = require("../utils/query");
+
+const { ALL_DISHES } = require("../data/dishes.data");
 
 const memoryRecipes = new Map();
+ALL_DISHES.forEach((dish) => {
+  memoryRecipes.set(dish.id, {
+    ...dish,
+    _id: dish.id,
+    createdAt: new Date().toISOString(),
+    updatedAt: new Date().toISOString(),
+  });
+});
 
 const unwrapData = (body) => (body && body.data ? body.data : body || {});
 
@@ -123,25 +134,36 @@ exports.createRecipe = async (req, res) => {
 // Get recipes with advanced filtering, case-insensitive search, and Strapi compatibility
 exports.getAllRecipes = async (req, res) => {
   try {
-    const eqiTitle = req.query?.["filters[title][$eqi]"];
+    const eqiTitle =
+      getQueryVal(req.query, ["filters", "title", "$eqi"]) ||
+      getQueryVal(req.query, ["filters", "title", "$eq"]);
     const containsiTitle =
-      req.query?.["filters[title][$containsi]"] ||
+      getQueryVal(req.query, ["filters", "title", "$containsi"]) ||
+      getQueryVal(req.query, ["filters", "title", "$contains"]) ||
       req.query?.title ||
       req.query?.search;
-    const cuisine = req.query?.["filters[cuisine][$eq]"] || req.query?.cuisine;
-    const category = req.query?.["filters[category][$eq]"] || req.query?.category;
-    const isPublic = req.query?.["filters[isPublic][$eq]"] || req.query?.isPublic;
+    const cuisine =
+      getQueryVal(req.query, ["filters", "cuisine", "$eq"]) ||
+      getQueryVal(req.query, ["filters", "cuisine", "$eqi"]) ||
+      req.query?.cuisine;
+    const category =
+      getQueryVal(req.query, ["filters", "category", "$eq"]) ||
+      getQueryVal(req.query, ["filters", "category", "$eqi"]) ||
+      req.query?.category;
+    const isPublic =
+      getQueryVal(req.query, ["filters", "isPublic", "$eq"]) ??
+      req.query?.isPublic;
 
     const pageSize =
       Number(
-        req.query?.["pagination[pageSize]"] ||
+        getQueryVal(req.query, ["pagination", "pageSize"]) ||
         req.query?.pageSize ||
         req.query?.limit
       ) || 50;
 
     const page =
       Number(
-        req.query?.["pagination[page]"] ||
+        getQueryVal(req.query, ["pagination", "page"]) ||
         req.query?.page
       ) || 1;
 
@@ -234,6 +256,7 @@ exports.getAllRecipes = async (req, res) => {
       },
     });
   } catch (error) {
+    console.error("Error in getAllRecipes:", error);
     let list = Array.from(memoryRecipes.values());
     return res.status(200).json({
       success: true,
@@ -258,6 +281,10 @@ exports.getRecipeById = async (req, res) => {
     );
 
     if (!recipe) {
+      const memoryRecipe = memoryRecipes.get(req.params.id);
+      if (memoryRecipe) {
+        return res.status(200).json({ success: true, data: memoryRecipe });
+      }
       return res.status(404).json({ success: false, message: "Recipe not found" });
     }
 

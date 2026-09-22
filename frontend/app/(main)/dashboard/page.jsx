@@ -6,6 +6,7 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { getCategoryEmoji, getCountryFlag } from "@/lib/data";
+import CountryLogo from "@/components/CountryLogo";
 import { ArrowRight, Flame, Globe } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
@@ -26,13 +27,13 @@ const DashboardPage = async () => {
   );
 
   return (
-    <div className="min-h-screen bg-stone-50 py-16 px-4">
+    <div className="min-h-screen bg-[#09090b] py-16 px-4 text-white">
       <div className="max-w-6xl mx-auto">
         <div className="mb-5">
-          <h1 className="text-5xl md:text-7xl font-bold text-stone-900 mb-4 tracking-tight leading-tight">
+          <h1 className="text-5xl md:text-7xl font-bold text-white mb-4 tracking-tight leading-tight">
             Fresh Recipes, Served Daily♨️✨
           </h1>
-          <p className="text-xl text-stone-600 font-light max-w-2xl">
+          <p className="text-xl text-zinc-400 font-light max-w-2xl">
             Discover thousands of recipes from around the world. Cook, create,
             and savor.
           </p>
@@ -41,44 +42,44 @@ const DashboardPage = async () => {
         {recipeOfTheDay && (
           <section className="mb-20 relative">
             <div className="flex items-center gap-2 mb-6">
-              <Flame className="w-6 h-6 text-orange-600" />
-              <h2 className="text-3xl font-serif font-bold text-stone-900">
+              <Flame className="w-6 h-6 text-pink-500" />
+              <h2 className="text-3xl font-serif font-bold text-white">
                 Recipe of the Day
               </h2>
             </div>
             <Link
               href={`/recipe?cook=${encodeURIComponent(recipeOfTheDay.strMeal)}`}
             >
-              <div className="relative bg-white border-2 border-stone-900 overflow-hidden hover:border-orange-600 hover:shadow-lg transition-all duration-300 group cursor-pointer">
+              <div className="relative bg-zinc-900/90 border-2 border-zinc-800 overflow-hidden hover:border-purple-500/80 hover:shadow-[0_0_35px_rgba(168,85,247,0.3)] hover:-translate-y-1 transition-all duration-300 group cursor-pointer">
                 <div className="grid md:grid-cols-2 gap-0">
-                  <div className="relative aspect-4/3 md:aspect-auto border-b-2 md:border-b-0 md:border-r-2 border-stone-900">
+                  <div className="relative aspect-4/3 md:aspect-auto border-b-2 md:border-b-0 md:border-r-2 border-zinc-800 overflow-hidden">
                     <Image
                       src={recipeOfTheDay.strMealThumb}
                       alt={recipeOfTheDay.strMeal}
                       fill
-                      className="object-cover"
+                      className="object-cover group-hover:scale-105 transition-transform duration-700"
                     />
                   </div>
                   <div className="p-8 md:p-12 flex flex-col justify-center">
                     <div className="flex flex-wrap gap-2 mb-6">
                       <Badge
                         variant="outline"
-                        className="border-2 border-orange-600 text-orange-700 bg-orange-50 font-bold"
+                        className="border-2 border-purple-500/80 text-purple-300 bg-purple-950/60 font-bold"
                       >
                         {recipeOfTheDay.strCategory}
                       </Badge>
                       <Badge
                         variant="outline"
-                        className="border-2 border-stone-900 text-stone-700 bg-stone-50 font-bold"
+                        className="border-2 border-blue-500/80 text-blue-300 bg-blue-950/60 font-bold"
                       >
                         <Globe className="w-3 h-3 mr-1" />
                         {recipeOfTheDay.strArea}
                       </Badge>
                     </div>
-                    <h3 className="text-4xl md:text-5xl font-bold text-stone-900 mb-4 group-hover:text-orange-600 transition-colors leading-tight">
+                    <h3 className="text-4xl md:text-5xl font-bold text-white mb-4 group-hover:text-purple-400 transition-colors leading-tight">
                       {recipeOfTheDay.strMeal}
                     </h3>
-                    <p className="text-stone-600 mb-6 line-clamp-3 font-light text-lg">
+                    <p className="text-zinc-400 mb-6 line-clamp-3 font-light text-lg">
                       {recipeOfTheDay.strInstructions?.substring(0, 200)}...
                     </p>
 
@@ -95,10 +96,10 @@ const DashboardPage = async () => {
         {/* Browse by categories */}
         <section className="mb-20">
           <div className="mb-8">
-            <h2 className="text-4xl md:text-5xl font-bold text-stone-900 mb-2">
+            <h2 className="text-4xl md:text-5xl font-bold text-white mb-2">
               Browse by Category
             </h2>
-            <p className="text-stone-600 text-lg font-light">
+            <p className="text-zinc-400 text-lg font-light">
               Find recipes that match your mood
             </p>
           </div>
@@ -108,11 +109,11 @@ const DashboardPage = async () => {
                 key={category.strCategory}
                 href={`/recipes/category/${category.strCategory.toLowerCase()}`}
               >
-                <div className="bg-white p-6 border-2 border-stone-200 hover:border-orange-600 hover:shadow-lg transition-all text-center group cursor-pointer">
-                  <div className="text-4xl mb-3">
+                <div className="bg-zinc-900/80 p-6 border-2 border-zinc-800 hover:border-purple-500 hover:bg-zinc-800/90 hover:shadow-[0_0_25px_rgba(168,85,247,0.3)] hover:-translate-y-2 hover:scale-[1.03] transition-all duration-300 text-center group cursor-pointer">
+                  <div className="text-4xl mb-3 group-hover:scale-110 transition-transform duration-300">
                     {getCategoryEmoji(category.strCategory)}
                   </div>
-                  <h3 className="font-bold text-stone-900 group-hover:text-orange-600 transition-colors text-sm">
+                  <h3 className="font-bold text-white group-hover:text-purple-400 transition-colors text-sm">
                     {category.strCategory}
                   </h3>
                 </div>
@@ -125,10 +126,10 @@ const DashboardPage = async () => {
 
         <section className="pb-12">
           <div className="mb-8">
-            <h2 className="text-4xl md:text-5xl font-bold text-stone-900 mb-2">
+            <h2 className="text-4xl md:text-5xl font-bold text-white mb-2">
               Explore World Cuisines
             </h2>
-            <p className="text-stone-600 text-lg font-light">
+            <p className="text-zinc-400 text-lg font-light">
               Travel the globe through food
             </p>
           </div>
@@ -141,12 +142,10 @@ const DashboardPage = async () => {
                   .toLowerCase()
                   .replace(/\s+/g, "-")}`}
               >
-                <div className="bg-stone-50 p-5 border-2 border-stone-200 hover:border-orange-600 hover:shadow-lg transition-all group cursor-pointer">
-                  <div className="flex items-center">
-                    <span className="text-3xl">
-                      {getCountryFlag(area.strArea)}
-                    </span>
-                    <span className="font-bold text-stone-900 group-hover:text-orange-600 transition-colors text-sm">
+                <div className="bg-zinc-900/80 p-4 border-2 border-zinc-800 hover:border-pink-500 hover:bg-zinc-800/90 hover:shadow-[0_0_25px_rgba(236,72,153,0.3)] hover:-translate-y-1.5 hover:scale-[1.02] transition-all duration-300 group cursor-pointer flex items-center justify-between">
+                  <div className="flex items-center gap-3 min-w-0">
+                    <CountryLogo country={area.strArea} size="sm" showCuisineBadge={true} />
+                    <span className="font-bold text-white group-hover:text-pink-400 transition-colors text-sm truncate">
                       {area.strArea}
                     </span>
                   </div>

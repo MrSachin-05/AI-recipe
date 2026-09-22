@@ -125,22 +125,22 @@ const AddToPantryModal = ({ isOpen, onClose, onSuccess }) => {
 
   return (
     <Dialog open={isOpen} onOpenChange={handleClose}>
-      <DialogContent className="max-w-3xl max-h-[93vh] overflow-y-auto rounded-none">
+      <DialogContent className="max-w-3xl max-h-[93vh] overflow-y-auto rounded-2xl bg-zinc-950 border border-zinc-800 text-white shadow-[0_0_50px_rgba(0,0,0,0.9)]">
         <DialogHeader>
-          <DialogTitle className="text-2xl font-bold tracking-tight">
+          <DialogTitle className="text-2xl font-bold tracking-tight text-white">
             Add to Pantry
           </DialogTitle>
-          <DialogDescription>
+          <DialogDescription className="text-zinc-400">
             Scan your pantry with AI or add items manually
           </DialogDescription>
         </DialogHeader>
         <Tabs value={activeTab} onValueChange={setActiveTab} className="mt-4">
-          <TabsList className="grid w-full grid-cols-2">
-            <TabsTrigger value="scan" className="gap-2">
+          <TabsList className="grid w-full grid-cols-2 bg-zinc-900 border border-zinc-800 p-1 rounded-xl">
+            <TabsTrigger value="scan" className="gap-2 text-zinc-400 data-[state=active]:bg-zinc-800 data-[state=active]:text-white data-[state=active]:shadow-sm">
               <Camera className="w-4 h-4" />
               AI scan
             </TabsTrigger>
-            <TabsTrigger value="manual">
+            <TabsTrigger value="manual" className="gap-2 text-zinc-400 data-[state=active]:bg-zinc-800 data-[state=active]:text-white data-[state=active]:shadow-sm">
               <Plus className="w-4 h-4" />
               Add Manually
             </TabsTrigger>
@@ -158,7 +158,7 @@ const AddToPantryModal = ({ isOpen, onClose, onSuccess }) => {
                   <Button
                     variant="primary"
                     onClick={handleScan}
-                    className="w-full h-12 text-lg"
+                    className="w-full h-12 text-lg shadow-[0_0_25px_rgba(168,85,247,0.35)]"
                     disabled={scanning}
                   >
                     {scanning ? (
@@ -179,10 +179,10 @@ const AddToPantryModal = ({ isOpen, onClose, onSuccess }) => {
               <div className="space-y-4">
                 <div className="flex items-center justify-between">
                   <div>
-                    <h3 className="text-lg font-bold text-stone-900">
+                    <h3 className="text-lg font-bold text-white">
                       Review Detected Items
                     </h3>
-                    <p className="text-sm text-stone-600">
+                    <p className="text-sm text-zinc-400">
                       Found {scannedIngredients.length} Ingredients
                     </p>
                   </div>
@@ -193,30 +193,30 @@ const AddToPantryModal = ({ isOpen, onClose, onSuccess }) => {
                       setScannedIngredients([]);
                       setSelectedImage(null);
                     }}
-                    className="gap-2"
+                    className="border-zinc-700 text-zinc-300 hover:bg-zinc-800 hover:text-white gap-2"
                   >
                     <Camera className="w-4 h-4" />
                     Scan Again
                   </Button>
                 </div>
-                <div className="space-y-3 max-h-96 overflow-y-auto">
+                <div className="space-y-3 max-h-96 overflow-y-auto pr-1">
                   {scannedIngredients.map((ingredient, index) => (
                     <div
                       key={index}
-                      className="flex items-center gap-3 p-4 bg-stone-50 rounded-xl border border-stone-200"
+                      className="flex items-center gap-3 p-4 bg-zinc-900/90 rounded-xl border border-zinc-800 hover:border-purple-500/50 transition-all"
                     >
                       <div className="flex-1">
-                        <div className="font-medium text-stone-900">
+                        <div className="font-medium text-white">
                           {ingredient.name}
                         </div>
-                        <div className="text-sm text-stone-50">
+                        <div className="text-sm text-zinc-400">
                           {ingredient.quantity}
                         </div>
                       </div>
                       {ingredient.confidence && (
                         <Badge
                           variant="outline"
-                          className="text-xs text-green-700 border-green-200"
+                          className="text-xs text-purple-300 border-purple-800/60 bg-purple-950/60"
                         >
                           {Math.round(ingredient.confidence * 100)}%
                         </Badge>
@@ -225,7 +225,7 @@ const AddToPantryModal = ({ isOpen, onClose, onSuccess }) => {
                         size="sm"
                         variant="ghost"
                         onClick={() => removeIngredient(index)}
-                        className="text-stone-600 hover:text-red-600"
+                        className="text-zinc-400 hover:text-rose-400 hover:bg-rose-950/30"
                       >
                         <X className="w-4 h-4" />
                       </Button>
@@ -237,7 +237,7 @@ const AddToPantryModal = ({ isOpen, onClose, onSuccess }) => {
                 <Button
                   onClick={handleSaveScanned}
                   disabled={saving || scannedIngredients.length === 0}
-                  className="flex-1 bg-green-600 hover:bg-green-700 text-white h-12 w-full"
+                  className="flex-1 bg-linear-to-r from-blue-600 via-purple-600 to-pink-500 text-white hover:from-blue-500 hover:via-purple-500 hover:to-pink-400 h-12 w-full shadow-lg shadow-purple-500/30 font-semibold"
                 >
                   {saving ? (
                     <>
@@ -257,7 +257,7 @@ const AddToPantryModal = ({ isOpen, onClose, onSuccess }) => {
           <TabsContent value="manual" className="mt-6">
             <form onSubmit={handleAddManual} className="space-y-4">
               <div>
-                <label className="block text-sm font-medium text-stone-700 mb-2">
+                <label className="block text-sm font-medium text-zinc-300 mb-2">
                   Ingredient Name
                 </label>
                 <input
@@ -267,13 +267,13 @@ const AddToPantryModal = ({ isOpen, onClose, onSuccess }) => {
                     setManualItem({ ...manualItem, name: e.target.value })
                   }
                   placeholder="e.g., Chicken breast"
-                  className="w-full px-4 py-3 border border-stone-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-orange-500"
+                  className="w-full px-4 py-3 bg-zinc-900 border border-zinc-700 rounded-xl text-white placeholder:text-zinc-500 focus:outline-none focus:ring-2 focus:ring-purple-500/40 focus:border-purple-500 transition-all"
                   disabled={adding}
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-stone-700 mb-2">
+                <label className="block text-sm font-medium text-zinc-300 mb-2">
                   Quantity
                 </label>
                 <input
@@ -282,8 +282,8 @@ const AddToPantryModal = ({ isOpen, onClose, onSuccess }) => {
                   onChange={(e) =>
                     setManualItem({ ...manualItem, quantity: e.target.value })
                   }
-                  placeholder="e.g., 500g, 2 cups, 3 pices"
-                  className="w-full px-4 py-3 border border-stone-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-orange-500"
+                  placeholder="e.g., 500g, 2 cups, 3 pieces"
+                  className="w-full px-4 py-3 bg-zinc-900 border border-zinc-700 rounded-xl text-white placeholder:text-zinc-500 focus:outline-none focus:ring-2 focus:ring-purple-500/40 focus:border-purple-500 transition-all"
                   disabled={adding}
                 />
               </div>
@@ -292,7 +292,7 @@ const AddToPantryModal = ({ isOpen, onClose, onSuccess }) => {
                 type="submit"
                 disabled={adding}
                 variant="primary"
-                className="flex-1 h-12 w-full"
+                className="flex-1 h-12 w-full shadow-[0_0_25px_rgba(168,85,247,0.35)]"
               >
                 {adding ? (
                   <>
